@@ -125,6 +125,17 @@ function PhotoTile({index, src, alt}) {
 export default function AnniversarySite() {
     const {daysTogether, daysToNext, sinceLabel} = useDayCounts(anniversaryDate);
     const animatedDaysTogether = useCountUp(daysTogether);
+    const audioRef = useRef(null);
+        const [isPlaying, setIsPlaying] = useState(false);
+
+        const toggleMusic = () => {
+            if (isPlaying) {
+            audioRef.current.pause();
+                } else {
+            audioRef.current.play();
+            }
+            setIsPlaying(!isPlaying);
+        };
 
     return (
         <>
@@ -151,7 +162,7 @@ export default function AnniversarySite() {
             </div>
             <div className="timeline">
                 {TimeLine.map((item, i)=> (
-                    <div className="timeline-item" key={i}>
+                    <div className="tl-item" key={i}>
                         <div className="tl-date">{item.date}</div>
                         <div className="tl-body">
                             <h3>{item.title}</h3>
@@ -201,6 +212,12 @@ export default function AnniversarySite() {
                     <div className="next-label">days to go</div>
                 </section>
                 <footer>made with love and effort, and coding it because it reminds me of you.</footer>
+
+                {/* ============ MUSIC ============ */}
+                <audio ref={audioRef} src="/music/song.mp3" loop />
+                    <button className="music-toggle" onClick={toggleMusic}>
+                        {isPlaying ? "♫ pause" : "♫ play music"}
+                    </button>
         </>
     )
 }
